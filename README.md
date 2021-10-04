@@ -37,9 +37,9 @@ pip install Cython --install-option="--no-cython-compile"
 
 #vai pra pastar do darkflow pra instala-lo:
 ## https://github.com/thtrieu/darkflow
-##cd /media/jones/datarec/lpr/fontes/ocr/darkflow/darkflow
-pip install .
-pip install imutils
-pip install -Iv h5py==2.10.0
-pip install --upgrade Pillow
+###cd /media/jones/datarec/lpr/fontes/ocr/darkflow/darkflow APENAS COMENTADO, NAO UTILIZAR    
+pip install .  
+pip install imutils  
+pip install -Iv h5py==2.10.0  
+pip install --upgrade Pillow  
 
