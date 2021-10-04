@@ -21,15 +21,19 @@ sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 
 `conda create --prefix /media/jones/datarec/lpr/env python=3.7.10`
 
-#ativar ambiente
+#ativar ambiente 
 `conda activate /media/jones/datarec/lpr/env`
-#instalar tensorflow
+#instalar tensorflow 
+
 pip install tensorflow-gpu==1.14.0
-#instalar keras
+
+#instalar keras 
+
 pip install keras==2.2.4
 pip install opencv-python==3.4.2.17
 pip install opencv-contrib-python==3.4.2.17
-pip install Cython --install-option="--no-cython-compile"
+pip install Cython --install-option="--no-cython-compile" 
+
 #vai pra pastar do darkflow pra instala-lo:
 ## https://github.com/thtrieu/darkflow
 ##cd /media/jones/datarec/lpr/fontes/ocr/darkflow/darkflow
