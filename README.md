@@ -17,10 +17,12 @@ Libraries dependancies:
  ### Criação de ambiente conda 
 sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 
-#criar ambiente python 3.7.10
-conda create --prefix /media/jones/datarec/lpr/env python=3.7.10
+#criar ambiente python 3.7.10  
+
+`conda create --prefix /media/jones/datarec/lpr/env python=3.7.10`
+
 #ativar ambiente
-conda activate /media/jones/datarec/lpr/env
+`conda activate /media/jones/datarec/lpr/env`
 #instalar tensorflow
 pip install tensorflow-gpu==1.14.0
 #instalar keras
