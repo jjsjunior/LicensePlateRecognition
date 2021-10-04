@@ -29,7 +29,7 @@ pip install tensorflow-gpu==1.14.0
 
 #instalar keras 
 
-pip install keras==2.2.4
+pip install keras==2.2.4 
 pip install opencv-python==3.4.2.17
 pip install opencv-contrib-python==3.4.2.17
 pip install Cython --install-option="--no-cython-compile" 
