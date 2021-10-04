@@ -35,7 +35,7 @@ pip install opencv-python==3.4.2.17
 pip install opencv-contrib-python==3.4.2.17  
 pip install Cython --install-option="--no-cython-compile"   
 
-#mudar baashp para a pasta do darkflow pra instala-lo:
+#ir para a pasta do darkflow pra instala-lo:
 ## https://github.com/thtrieu/darkflow
 ###cd /media/jones/datarec/lpr/fontes/ocr/darkflow/darkflow APENAS COMENTADO, NAO UTILIZAR    
 pip install .  
