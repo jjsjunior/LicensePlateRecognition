@@ -10,7 +10,8 @@ from PIL import Image
 
 
 
-options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu":0.9}
+# options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu":0.9}
+options = {"pbLoad": "yolo-character_ceia.pb", "metaLoad": "yolo-character_ceia.meta", "gpu":0.9}
 yoloCharacter = TFNet(options)
 
 characterRecognition = keras.models.load_model('character_recognition.h5')
@@ -144,7 +145,7 @@ def extrair_caracteres():
         print(error)
         pass
     image_pil = Image.fromarray(secondCropImgCopy)
-    image_pil.save('plate.jpg')
+    image_pil.save('plate_ceia.jpg')
     # cv2.imshow('Video',secondCropImgCopy)
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     return

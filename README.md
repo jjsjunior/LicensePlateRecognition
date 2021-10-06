@@ -36,10 +36,32 @@ pip install opencv-contrib-python==3.4.2.17
 pip install Cython --install-option="--no-cython-compile"   
 
 #ir para a pasta do darkflow pra instala-lo:
-## https://github.com/thtrieu/darkflow
+## https://github.com/thtrieu/darkflow  
+## procedimentos pra correcao de problema na instalacao local do darkflow:
+####https://github.com/TheophileBuy/LicensePlateRecognition/issues/2
+####Just build the Cython extensions in place. NOTE: If installing this way you will have to use ./flow in the cloned darkflow directory instead of flow as darkflow is not installed globally.
+`python3 setup.py build_ext --inplace`  
+####Let pip install darkflow globally in dev mode (still globally accessible, but changes to the code immediately take effect)
+`pip install -e .`   
+`Install with pip globally`  
+`pip install .`  
+
 ###cd /media/jones/datarec/lpr/fontes/ocr/darkflow/darkflow APENAS COMENTADO, NAO UTILIZAR    
 pip install .  
 pip install imutils  
 pip install -Iv h5py==2.10.0  
 pip install --upgrade Pillow  
 
+## DS-CHAR-1
+* 1.359 plates
+
+# Resultados
+* Total de amostras: 938 chars  
+* IOU = 0.5
+* DS-CHAR-1  
+
+
+Modelo | Precision | Recall | True Positive | False Positive | False Negative  
+------------ | --------- | ------------- | --------- | ------------- | -------------  
+Baseline Yolov2 | 0.61 | 0.45 | 423 | 266 | 515  
+Yolov2-ceia-v3 | **0.71** | **0.66** | **615** | **246** | **323**  
