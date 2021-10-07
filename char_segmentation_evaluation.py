@@ -1,3 +1,4 @@
+from PIL import Image
 import os.path
 import xml.etree.ElementTree as ET
 import numpy as np
@@ -108,7 +109,9 @@ def evaluate_precision_recall(ground_truth_frame: list, predictions_bbox_frame: 
 	return true_positive, false_positive, false_negative
 
 
-def validate_char_segmentation_model(dir_images_validation_input: str, dir_gt_validation_input: str, yolo_char_seg_model):
+def validate_char_segmentation_model(dir_images_validation_input: str, dir_gt_validation_input: str,
+									 yolo_char_seg_model: str, dir_images_validation_output: str,
+									 is_print_output: bool = False):
 	seg_threshold = .5
 	imgs_paths = glob('%s/*.jpg' % dir_images_validation_input, recursive=True)
 	indicadores_validacao = MetricIndicator()
@@ -118,7 +121,6 @@ def validate_char_segmentation_model(dir_images_validation_input: str, dir_gt_va
 			bname_image_file = splitext(basename(img_path))[0]
 			name_file_gt = bname_image_file + '.xml'
 			plate = cv2.imread(img_path)
-			plate = prediction_utils.secondCrop(plate)
 			predictions = yolo_char_seg_model.return_predict(plate)
 			ground_truth_frame = []
 			gt_img_path = os.path.abspath(os.path.join(dir_gt_validation_input, name_file_gt))
@@ -143,6 +145,17 @@ def validate_char_segmentation_model(dir_images_validation_input: str, dir_gt_va
 					# char = img[ytop:ybottom, xtop:xbottom]
 					# cv2.rectangle(img, (xtop, ytop), (xbottom, ybottom), (255, 0, 0), 2)
 			true_positive_frame, false_positive_frame, false_negative_frame = evaluate_precision_recall(ground_truth_frame, predictions_bbox_frame, seg_threshold)
+			if false_negative_frame > 0:
+				print('false negative: %s ' % img_path)
+			if is_print_output:
+				plate_copy = plate.copy()
+				for bbox_predicted in predictions_bbox_frame:
+					xtop, ytop, xbottom, ybottom = bbox_predicted
+					cv2.rectangle(plate_copy, (xtop, ytop), (xbottom, ybottom), (255, 0, 0), 2)
+				image_pil = Image.fromarray(plate_copy)
+				output_name_file = bname_image_file + '.jpg'
+				abs_path_file_output = os.path.abspath(os.path.join(dir_images_validation_output, output_name_file))
+				image_pil.save(abs_path_file_output)
 			indicadores_validacao.true_positive += true_positive_frame
 			indicadores_validacao.false_positive += false_positive_frame
 			indicadores_validacao.false_negative += false_negative_frame

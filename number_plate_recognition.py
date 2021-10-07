@@ -1,17 +1,20 @@
+import os.path
+from glob import glob
+from os.path import splitext, basename
+import argparse
+import sys
 from darkflow.net.build import TFNet
-import tensorflow as tf
 from tensorflow import keras
-# from keras import layers, models
 import numpy as np
 import cv2
-import imutils
 from PIL import Image
 
 
 
 
 # options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu":0.9}
-options = {"pbLoad": "yolo-character_ceia.pb", "metaLoad": "yolo-character_ceia.meta", "gpu":0.9}
+# options = {"pbLoad": "yolo-character_ceia.pb", "metaLoad": "yolo-character_ceia.meta", "gpu":0.9}
+options = {"pbLoad": "yolo-character_ceia_4.pb", "metaLoad": "yolo-character_ceia_4.meta", "gpu":0.9}
 yoloCharacter = TFNet(options)
 
 characterRecognition = keras.models.load_model('character_recognition.h5')
@@ -118,6 +121,40 @@ def yoloCharDetection(predictions,img):
 #     h, w, l = frame.shape
 #     frame = imutils.rotate(frame, 270)
 
+
+def main(args):
+    abs_path_dir_input = args.abs_path_dir_input
+    abs_path_dir_output = args.abs_path_dir_output
+    if not os.path.exists(abs_path_dir_output):
+        os.makedirs(abs_path_dir_output)
+    print_plates(abs_path_dir_input, abs_path_dir_output)
+
+def print_plates(abs_path_dir_input, abs_path_dir_output):
+    imgs_paths = glob('%s/*.jpg' % abs_path_dir_input, recursive=True)
+    for i, img_path in enumerate(imgs_paths):
+        try:
+            bname_image_file = splitext(basename(img_path))[0]
+            firstCropImg = cv2.imread(img_path)
+            # secondCropImg = secondCrop(firstCropImg)
+            secondCropImgCopy = firstCropImg.copy()
+            predictions = yoloCharacter.return_predict(firstCropImg)
+            predicted_characters, image_ = yoloCharDetection(predictions, secondCropImgCopy)
+            print("Yolo+CNN : " + predicted_characters)
+            # output_file_plate_name = predicted_characters+'.jpg'
+            output_file_plate_name = bname_image_file + '.jpg'
+            abs_path_file_output = os.path.abspath(os.path.join(abs_path_dir_output, output_file_plate_name))
+            image_pil = Image.fromarray(secondCropImgCopy)
+            image_pil.save(abs_path_file_output)
+        except Exception as error:
+            print('erro na inferencia do caracter')
+            print(error)
+            pass
+
+    # cv2.imshow('Video',secondCropImgCopy)
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+    #     return
+
+
 def extrair_caracteres():
     licensePlate = []
     try:
@@ -150,7 +187,16 @@ def extrair_caracteres():
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     return
 
+def parse_arguments(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--abs_path_dir_input', type=str, help='1 para video, 0 para diretorio frames jpg .', default='1')
+    parser.add_argument('--abs_path_dir_output', type=str, help='0 para nao salvar a imagem com bouding box, 1 para salvar com bbox.', default='0')
+    return parser.parse_args(argv)
 
-cv2.destroyAllWindows()
-extrair_caracteres()
+
+if __name__ == '__main__':
+    main(parse_arguments(sys.argv[1:]))
+
+
+# extrair_caracteres()
 

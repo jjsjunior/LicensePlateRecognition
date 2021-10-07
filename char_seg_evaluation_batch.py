@@ -15,16 +15,23 @@ from darkflow.net.build import TFNet
 def main(args):
     dir_images_validation_input = args.dir_images_validation_input
     dir_gt_validation_input = args.dir_gt_validation_input
-    options = {"pbLoad": "yolo-character_ceia_3.pb", "metaLoad": "yolo-character_ceia_3.meta", "gpu": 0.9}
+    dir_images_validation_output = args.dir_images_validation_output
+    if not os.path.exists(dir_images_validation_output):
+        os.makedirs(dir_images_validation_output)
+    # options = {"pbLoad": "yolo-character_ceia_4.pb", "metaLoad": "yolo-character_ceia_4.meta", "gpu": 0.9}
     # options = {"pbLoad": "yolo-character_ceia.pb", "metaLoad": "yolo-character_ceia.meta", "gpu": 0.9}
+    options = {"pbLoad": "yolo-character_ceia_3.pb", "metaLoad": "yolo-character_ceia_3.meta", "gpu": 0.9}
     yolo_char_seg_model = TFNet(options)
-    char_segmentation_evaluation.validate_char_segmentation_model(dir_images_validation_input, dir_gt_validation_input, yolo_char_seg_model)
+    char_segmentation_evaluation.validate_char_segmentation_model(dir_images_validation_input, dir_gt_validation_input,
+                                                                  yolo_char_seg_model, dir_images_validation_output,
+                                                                  is_print_output=True)
 
 
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dir_images_validation_input', type=str, help='1 para video, 0 para diretorio frames jpg .', default='1')
-    parser.add_argument('--dir_gt_validation_input', type=str, help='0 para nao salvar a imagem com bouding box, 1 para salvar com bbox.', default='0')
+    parser.add_argument('--dir_images_validation_input', type=str, default='1')
+    parser.add_argument('--dir_gt_validation_input', type=str, default='0')
+    parser.add_argument('--dir_images_validation_output', type=str, default='1')
     return parser.parse_args(argv)
 
 

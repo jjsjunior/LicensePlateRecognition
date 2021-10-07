@@ -55,6 +55,33 @@ pip install --upgrade Pillow
 ## DS-CHAR-1
 * 1.359 plates
 
+# Modelos
+### Yolov2-ceia-v3  
+* model size: width=608 height=608
+* learning_rate=0.001
+* burn_in=2000
+* max_batches = 500200
+* policy=steps
+* steps=10000,20000,30000
+* scales=.1,.1,.1
+* batch = 8
+* epoch = 200
+* moving ave loss ~= 6.4
+
+
+### Yolov2-ceia-v4
+* model size: width=416 height=416
+* learning_rate=0.001
+* burn_in=2000
+* max_batches = 500200
+* policy=steps
+* steps=10000,20000,30000
+* scales=.1,.1,.1
+* batch = 8
+* epoch = 200
+* moving ave loss = 3.683196278051683
+
+
 # Resultados
 * Total de amostras: 938 chars  
 * IOU = 0.5
@@ -63,5 +90,6 @@ pip install --upgrade Pillow
 
 Modelo | Precision | Recall | True Positive | False Positive | False Negative  
 ------------ | --------- | ------------- | --------- | ------------- | -------------  
-Baseline Yolov2 | 0.61 | 0.45 | 423 | 266 | 515  
-Yolov2-ceia-v3 | **0.71** | **0.66** | **615** | **246** | **323**  
+Baseline Yolov2 | 0.90 | 0.77 | 725 | 81 | 213  
+Yolov2-ceia-v3 | 0.99 | 1.0 | 936 | 8 | 2  
+Yolov2-ceia-v4 | **1.0** | **1.0** | **937** | **2** | **1**

@@ -5,7 +5,7 @@ import cv2
 options = {"model": "cfg/yolo-character.cfg", 
            "load": "bin/yolo.weights",
            "batch": 8,
-           "epoch": 100,
+           "epoch": 200,
            "gpu": 0.9,
            "train": True,
            "annotation": "./data/AnnotationsXML/characters/",
