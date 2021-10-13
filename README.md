@@ -58,7 +58,7 @@ pip install --upgrade Pillow
 
 ## DS-CHAR-2
 * DS-CHAR-2_train: 4.731 plates
-* DS-CHAR-2_test: 8.684 chars
+* DS-CHAR-2_test: 1.242 plates / 8.694 chars
 
 
 
