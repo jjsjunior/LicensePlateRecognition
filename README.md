@@ -53,7 +53,15 @@ pip install -Iv h5py==2.10.0
 pip install --upgrade Pillow  
 
 ## DS-CHAR-1
-* 1.359 plates
+* DS-CHAR-1_train: 1.359 plates  
+
+
+## DS-CHAR-2
+* DS-CHAR-2_train: 4.731 plates
+* DS-CHAR-2_test: 8.684 chars
+
+
+
 
 # Modelos
 ### Yolov2-ceia-v3  
@@ -67,6 +75,7 @@ pip install --upgrade Pillow
 * batch = 8
 * epoch = 200
 * moving ave loss ~= 6.4
+* train DS-CHAR-1_train  
 
 
 ### Yolov2-ceia-v4
@@ -80,16 +89,17 @@ pip install --upgrade Pillow
 * batch = 8
 * epoch = 200
 * moving ave loss = 3.683196278051683
+* train DS-CHAR-1_train  
 
 
 # Resultados
 * Total de amostras: 938 chars  
 * IOU = 0.5
-* DS-CHAR-1  
+* DS-CHAR-2_test  
 
 
 Modelo | Precision | Recall | True Positive | False Positive | False Negative  
 ------------ | --------- | ------------- | --------- | ------------- | -------------  
-Baseline Yolov2 | 0.90 | 0.77 | 725 | 81 | 213  
-Yolov2-ceia-v3 | 0.99 | 1.0 | 936 | 8 | 2  
-Yolov2-ceia-v4 | **1.0** | **1.0** | **937** | **2** | **1**
+Baseline Yolov2 | 0.99 | 0.41 | 3522 | 269 | 5172  
+Yolov2-ceia-v3 | 0.98 | 0.99 | 8597 | 149 | 97  
+Yolov2-ceia-v4 | **0.99** | **0.99** | **8596** | **130** | **98**
