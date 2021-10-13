@@ -93,7 +93,7 @@ pip install --upgrade Pillow
 
 
 # Resultados
-* Total de amostras: 938 chars  
+* Total de amostras: 8694 chars  
 * IOU = 0.5
 * DS-CHAR-2_test  
 
