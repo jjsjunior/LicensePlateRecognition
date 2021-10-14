@@ -19,10 +19,11 @@ def main(args):
     if not os.path.exists(dir_images_validation_output):
         os.makedirs(dir_images_validation_output)
     # options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu": 0.9}
-    options = {"pbLoad": "yolo-character_ceia_4.pb", "metaLoad": "yolo-character_ceia_4.meta", "gpu": 0.9}
+    # options = {"pbLoad": "yolo-character_ceia_4.pb", "metaLoad": "yolo-character_ceia_4.meta", "gpu": 0.9}
     # options = {"pbLoad": "yolo-character_ceia.pb", "metaLoad": "yolo-character_ceia.meta", "gpu": 0.9}
     # options = {"pbLoad": "yolo-character_ceia_3.pb", "metaLoad": "yolo-character_ceia_3.meta", "gpu": 0.9}
     # options = {"pbLoad": "yolo-character_ceia_5.pb", "metaLoad": "yolo-character_ceia_5.meta", "gpu": 0.9}
+    options = {"pbLoad": "yolo-character_ceia_6.pb", "metaLoad": "yolo-character_ceia_6.meta", "gpu": 0.9}
     yolo_char_seg_model = TFNet(options)
     char_segmentation_evaluation.validate_char_segmentation_model(dir_images_validation_input, dir_gt_validation_input,
                                                                   yolo_char_seg_model, dir_images_validation_output,

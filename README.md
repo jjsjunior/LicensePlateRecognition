@@ -91,6 +91,19 @@ pip install --upgrade Pillow
 * moving ave loss = 3.683196278051683
 * train DS-CHAR-1_train  
 
+### Yolov2-ceia-v6
+* model size: width=416 height=416
+* learning_rate=0.001
+* burn_in=5000
+* max_batches = 500200
+* policy=steps
+* steps=10000,20000
+* scales=.1,.1
+* batch = 8
+* epoch = 100
+* moving ave loss = 6.2
+* train DS-CHAR-2_train  
+
 
 # Resultados
 * Total de amostras: 8694 chars  
@@ -100,6 +113,7 @@ pip install --upgrade Pillow
 
 Modelo | Precision | Recall | True Positive | False Positive | False Negative  
 ------------ | --------- | ------------- | --------- | ------------- | -------------  
-Baseline Yolov2 | 0.99 | 0.41 | 3522 | 269 | 5172  
+Baseline Yolov2 | 0.90 | 0.41 | 3522 | 269 | 5172  
 Yolov2-ceia-v3 | 0.98 | 0.99 | 8597 | 149 | 97  
-Yolov2-ceia-v4 | **0.99** | **0.99** | **8596** | **130** | **98**
+Yolov2-ceia-v4 | 0.99 | 0.99 | 8596 | 130 | 98
+Yolov2-ceia-v6 | **0.99** | **0.99** | **8634** | **103** | **60**

@@ -15,7 +15,8 @@ from PIL import Image
 
 # options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu":0.9}
 # options = {"pbLoad": "yolo-character_ceia.pb", "metaLoad": "yolo-character_ceia.meta", "gpu":0.9}
-options = {"pbLoad": "yolo-character_ceia_4.pb", "metaLoad": "yolo-character_ceia_4.meta", "gpu":0.9}
+# options = {"pbLoad": "yolo-character_ceia_4.pb", "metaLoad": "yolo-character_ceia_4.meta", "gpu":0.9}
+options = {"pbLoad": "yolo-character_ceia_6.pb", "metaLoad": "yolo-character_ceia_6.meta", "gpu":0.9}
 yoloCharacter = TFNet(options)
 
 characterRecognition = keras.models.load_model('character_recognition.h5')
