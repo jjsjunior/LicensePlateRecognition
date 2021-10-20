@@ -37,6 +37,8 @@ def load_data(dir_images_train, dir_images_test):
                 sub_images = np.array([np.array(Image.open(fname).resize((width, height), Image.NEAREST)) for fname in filelist])
                 # sub_labels = [int(directory[-2:])]*len(sub_images)
                 letter_label_str = directory[-1:].lower()
+                if letter_label_str=='?':
+                    continue
                 if letter_label_str.isdigit():
                     letter_label = int(letter_label_str)
                 else:
@@ -61,15 +63,17 @@ def train_model(train_images, train_labels, test_images, test_labels):
     model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.Flatten())
     model.add(layers.Dense(64, activation='relu'))
-    model.add(layers.Dense(37, activation='softmax'))
+    # model.add(layers.Dense(37, activation='softmax'))
+    model.add(layers.Dense(36, activation='softmax'))
     model.summary()
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
     model.fit(train_images, train_labels, epochs=180)
     test_loss, test_acc = model.evaluate(test_images, test_labels)
-    print(test_acc)
-    model.save("model_char_recognition.h5")
+    print('test_acc: %s' % str(test_acc))
+    print('test_loss: %s' % str(test_loss))
+    model.save("char_recog_ceia_1.h5")
 
 
 def parse_arguments(argv):

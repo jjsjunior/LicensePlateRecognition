@@ -80,7 +80,11 @@ cfg/yolo-character.cfg
 
 ## DS-CHAR-2
 * DS-CHAR-2_train: 4.731 plates
-* DS-CHAR-2_test: 1.242 plates / 8.694 chars
+* DS-CHAR-2_test: 1.242 plates / 8.694 chars  
+
+## DS-CHAR-RECOG-1
+* DS-CHAR-RECOG-1_train: 22958 chars
+* DS-CHAR-RECOG-1_test: 5740  chars
 
 
 
@@ -140,7 +144,7 @@ cfg/yolo-character.cfg
 * train DS-CHAR-2_train
 
 
-# Resultados
+# Resultados Segmentação
 * Total de amostras: 8694 chars  
 * IOU = 0.5
 * DS-CHAR-2_test  
@@ -153,3 +157,12 @@ Yolov2-ceia-v3 | 0.98 | 0.99 | 8597 | 149 | 97
 Yolov2-ceia-v4 | 0.99 | 0.99 | 8596 | 130 | 98
 Yolov2-ceia-v6 | **0.99** | **0.99** | **8634** | **103** | **60**
 Yolov2-ceia-v7 | 0.98 | **0.99** | 8624 | 147 | 70
+
+
+# Resultados Char Recognition
+* DS-CHAR-RECOG-1_train
+
+
+Modelo | loss | acc   
+------------ | --------- | -------------   
+char_recog_ceia_1 | 2.67 | 0.8517   
