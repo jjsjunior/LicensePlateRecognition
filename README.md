@@ -52,6 +52,28 @@ pip install imutils
 pip install -Iv h5py==2.10.0  
 pip install --upgrade Pillow  
 
+
+
+### lembretes:
+problema ao definir o LR. encontrada issue no proprio repo:  
+Darkflow does not use the learning rate in .cfg. Use --lr instead.  
+`https://github.com/thtrieu/darkflow/issues/515#issuecomment-356474112`
+
+### comear a treinar a partir de um checkpoint
+* Transformar os arquivos de ckp para o formator protobuf (.pb)
+
+`https://github.com/thtrieu/darkflow/issues/869#issuecomment-412757194`
+```
+python flow.py
+--model
+cfg/yolo-character.cfg
+--load
+-1
+--savepb
+```
+* Definir o parâmetro load no train-character.py (utiliza o ultimo checkpoint):  
+`"load": -1`
+
 ## DS-CHAR-1
 * DS-CHAR-1_train: 1.359 plates  
 
@@ -102,7 +124,20 @@ pip install --upgrade Pillow
 * batch = 8
 * epoch = 100
 * moving ave loss = 6.2
-* train DS-CHAR-2_train  
+* train DS-CHAR-2_train
+
+### Yolov2-ceia-v7
+* model size: width=320 height=320
+* learning_rate=0.001
+* burn_in=2000
+* max_batches = 500200
+* policy=steps
+* steps=20000,50000, 100000
+* scales=.1,.1,.9
+* batch = 16
+* epoch = 120
+* moving ave loss = 4
+* train DS-CHAR-2_train
 
 
 # Resultados
@@ -117,3 +152,4 @@ Baseline Yolov2 | 0.90 | 0.41 | 3522 | 269 | 5172
 Yolov2-ceia-v3 | 0.98 | 0.99 | 8597 | 149 | 97  
 Yolov2-ceia-v4 | 0.99 | 0.99 | 8596 | 130 | 98
 Yolov2-ceia-v6 | **0.99** | **0.99** | **8634** | **103** | **60**
+Yolov2-ceia-v7 | 0.98 | **0.99** | 8624 | 147 | 70
