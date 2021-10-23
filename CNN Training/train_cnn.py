@@ -58,8 +58,10 @@ def train_model(train_images, train_labels, test_images, test_labels):
     model = models.Sequential()
     model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(height, width, channel)))
     model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Dropout(0.5))
     model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
+    model.add(layers.Dropout(0.5))
     model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.Flatten())
     model.add(layers.Dense(64, activation='relu'))
@@ -73,7 +75,7 @@ def train_model(train_images, train_labels, test_images, test_labels):
     test_loss, test_acc = model.evaluate(test_images, test_labels)
     print('test_acc: %s' % str(test_acc))
     print('test_loss: %s' % str(test_loss))
-    model.save("char_recog_ceia_1.h5")
+    model.save("char_recog_ceia_2.h5")
 
 
 def parse_arguments(argv):

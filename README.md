@@ -162,7 +162,29 @@ Yolov2-ceia-v7 | 0.98 | **0.99** | 8624 | 147 | 70
 # Resultados Char Recognition
 * DS-CHAR-RECOG-1_train
 
+### char_recog_ceia_1
+* model size: width=42 height=63
+* epoch = 180
+* loss = 0.05
+* train DS-CHAR-RECOG-1_train
+
+### char_recog_ceia_2
+* model size: width=42 height=63
+* epoch = 180
+* loss = 0.05
+* 2 layers droptou 0.5
+* train DS-CHAR-RECOG-1_train
+
+
+# Resultados Segmentação
+* Total de amostras: 8694 chars  
+* IOU = 0.5
+* DS-CHAR-2_test  
+
+
+
 
 Modelo | loss | acc   
 ------------ | --------- | -------------   
-char_recog_ceia_1 | 2.67 | 0.8517   
+char_recog_ceia_1 | 2.67 | 0.8517  
+char_recog_ceia_2 | 0.9905 | 0.9024 
