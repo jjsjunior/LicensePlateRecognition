@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 import tensorflow as tf
-from tensorflow.keras import layers, models
+from tensorflow.keras import layers, models, regularizers
 import glob
 import numpy as np
 from PIL import Image
@@ -21,8 +21,12 @@ def main(args):
     (train_images, train_labels), (test_images, test_labels) = load_data(dir_images_train, dir_images_test)
     train_model(train_images, train_labels, test_images, test_labels)
 
-dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'i':18,'j':19,'k':20,'l':21,'m':22,
-                      'n':23,'o':24,'p':25,'q':26,'r':27,'s':28,'t':29,'u':30,'v':31,'w':32,'x':33,'y':34,'z':35,'?':36}
+# dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'i':18,'j':19,'k':20,'l':21,'m':22,
+#                       'n':23,'o':24,'p':25,'q':26,'r':27,'s':28,'t':29,'u':30,'v':31,'w':32,'x':33,'y':34,'z':35,'?':36}
+
+
+dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'j':18,'k':19,'l':20,'m':21,
+                      'n':22,'p':23,'q':24,'r':25,'s':26,'t':27,'u':28,'v':29,'w':30,'x':31,'y':32,'z':33,'?':34}
 
 
 def load_data(dir_images_train, dir_images_test):
@@ -68,16 +72,16 @@ def train_model(train_images, train_labels, test_images, test_labels):
     model.add(layers.Flatten())
     model.add(layers.Dense(64, activation='relu'))
     # model.add(layers.Dense(37, activation='softmax'))
-    model.add(layers.Dense(36, activation='softmax'))
+    model.add(layers.Dense(34, activation='softmax'))
     model.summary()
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
-    model.fit(train_images, train_labels, epochs=300)
+    model.fit(train_images, train_labels,batch_size=128, epochs=300)
     test_loss, test_acc = model.evaluate(test_images, test_labels)
     print('test_acc: %s' % str(test_acc))
     print('test_loss: %s' % str(test_loss))
-    model.save("char_recog_ceia_2.h5")
+    model.save("char_recog_ceia_3.h5")
 
 
 def parse_arguments(argv):
