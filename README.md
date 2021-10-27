@@ -172,14 +172,23 @@ Yolov2-ceia-v7 | 0.98 | **0.99** | 8624 | 147 | 70
 * model size: width=42 height=63
 * epoch = 180
 * loss = 0.05
-* 2 layers droptou 0.5
+* 2 layers dropout 0.5
 * train DS-CHAR-RECOG-1_train
+
+
+## Ceia_ResNet20v1_model.101
+* model size: width=42 height=63
+* epoch = 146
+* best epoch = 102
+* train DS-CHAR-RECOG-1_train
+* ResNet20 v1
 
 
 # Resultados Segmentação
 * Total de amostras: 8694 chars  
 * IOU = 0.5
-* DS-CHAR-2_test  
+* DS-CHAR-2_test 
+
 
 
 
@@ -188,3 +197,4 @@ Modelo | loss | acc
 ------------ | --------- | -------------   
 char_recog_ceia_1 | 2.67 | 0.8517  
 char_recog_ceia_2 | 0.9905 | 0.9024 
+Ceia_ResNet20v1_model | 0.5065| **0.93399**
