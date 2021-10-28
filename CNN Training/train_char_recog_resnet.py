@@ -20,7 +20,7 @@ from sklearn.model_selection import train_test_split
 batch_size = 32  # orig paper trained all networks with batch_size=128
 epochs = 200
 data_augmentation = False
-num_classes = 36
+num_classes = 34
 
 # Subtracting pixel mean improves accuracy
 subtract_pixel_mean = True
@@ -29,7 +29,7 @@ n = 3
 
 # Model version
 # Orig paper: version = 1 (ResNet v1), Improved ResNet: version = 2 (ResNet v2)
-version = 1
+version = 2
 
 # Computed depth from supplied model parameter n
 if version == 1:
@@ -44,8 +44,11 @@ width = 42
 height = 63
 channel = 3
 
-dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'i':18,'j':19,'k':20,'l':21,'m':22,
-                      'n':23,'o':24,'p':25,'q':26,'r':27,'s':28,'t':29,'u':30,'v':31,'w':32,'x':33,'y':34,'z':35,'?':36}
+# dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'i':18,'j':19,'k':20,'l':21,'m':22,
+#                       'n':23,'o':24,'p':25,'q':26,'r':27,'s':28,'t':29,'u':30,'v':31,'w':32,'x':33,'y':34,'z':35,'?':36}
+
+dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'j':18,'k':19,'l':20,'m':21,
+                      'n':22,'p':23,'q':24,'r':25,'s':26,'t':27,'u':28,'v':29,'w':30,'x':31,'y':32,'z':33,'?':34}
 
 def load_data(dir_images_train, dir_images_test):
     images = np.array([]).reshape(0, height, width, channel)
@@ -73,7 +76,7 @@ def load_data(dir_images_train, dir_images_test):
     X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42, shuffle=True)
     return (X_train, y_train), (X_test, y_test)
 
-dir_images_train='/media/jones/dataset/alpr/lotes_rotulacao/preprocessados/char_recognition/dataset_char/train/images'
+dir_images_train='/media/jones/dataset/alpr/lotes_rotulacao/preprocessados/char_recognition_2/dataset_char/train/images'
 dir_images_test=''
 
 # Load the CIFAR10 data.
@@ -355,7 +358,7 @@ print(model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'cifar10_%s_model.{epoch:03d}.h5' % model_type
+model_name = 'ceia_char_recog_3_%s_model.{epoch:03d}.h5' % model_type
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
 filepath = os.path.join(save_dir, model_name)
