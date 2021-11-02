@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 # Training parameters
 batch_size = 32  # orig paper trained all networks with batch_size=128
 epochs = 200
-data_augmentation = False
+data_augmentation = True
 num_classes = 34
 
 # Subtracting pixel mean improves accuracy
@@ -358,7 +358,7 @@ print(model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'ceia_char_recog_3_%s_model.{epoch:03d}.h5' % model_type
+model_name = 'ceia_char_recog_4_%s_model.{epoch:03d}.h5' % model_type
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
 filepath = os.path.join(save_dir, model_name)
@@ -438,7 +438,7 @@ else:
     model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch_size),
                         validation_data=(x_test, y_test),
                         epochs=epochs, verbose=1, workers=4,
-                        callbacks=callbacks)
+                        callbacks=callbacks, steps_per_epoch=350)
 
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
