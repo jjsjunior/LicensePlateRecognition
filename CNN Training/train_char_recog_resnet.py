@@ -358,7 +358,7 @@ print(model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'ceia_char_recog_4_%s_model.{epoch:03d}.h5' % model_type
+model_name = 'ceia_char_recog_5_%s_model.{epoch:03d}.h5' % model_type
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
 filepath = os.path.join(save_dir, model_name)
@@ -406,13 +406,15 @@ else:
         # randomly rotate images in the range (deg 0 to 180)
         rotation_range=0,
         # randomly shift images horizontally
-        width_shift_range=0.1,
+        width_shift_range=0.,
         # randomly shift images vertically
-        height_shift_range=0.1,
+        height_shift_range=0.,
         # set range for random shear
         shear_range=0.,
         # set range for random zoom
-        zoom_range=0.,
+        zoom_range=[0.7, 1.3],
+        # randomly darkening images, brightening images, or bot
+        # brightness_range=[0.7, 1.3],
         # set range for random channel shifts
         channel_shift_range=0.,
         # set mode for filling points outside the input boundaries
