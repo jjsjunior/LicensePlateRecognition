@@ -82,6 +82,12 @@ cfg/yolo-character.cfg
 * DS-CHAR-2_train: 4.731 plates
 * DS-CHAR-2_test: 1.242 plates / 8.694 chars  
 
+
+## DS-CHAR-3  
+* DS-CHAR-3_train: 7.283 plates  
+* DS-CHAR-3_test: 1.816 plates / ??? chars  
+
+
 ## DS-CHAR-RECOG-1
 * DS-CHAR-RECOG-1_train: 22958 chars
 * DS-CHAR-RECOG-1_test: 5740  chars

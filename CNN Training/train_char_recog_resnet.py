@@ -50,12 +50,13 @@ channel = 3
 dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'j':18,'k':19,'l':20,'m':21,
                       'n':22,'p':23,'q':24,'r':25,'s':26,'t':27,'u':28,'v':29,'w':30,'x':31,'y':32,'z':33,'?':34}
 
-def load_data(dir_images_train, dir_images_test):
+
+
+def load_samples(base_directory_dataset):
     images = np.array([]).reshape(0, height, width, channel)
     labels = np.array([])
-
     ################ Data in  ./AUG then in a folder with label name, example : ./AUG/A for A images #############
-    directories = [x[0] for x in os.walk(dir_images_train)][2:]
+    directories = [x[0] for x in os.walk(base_directory_dataset)][2:]
     print(directories)
     for directory in directories:
         filelist = glob.glob(directory + '/*.jpg')
@@ -73,11 +74,16 @@ def load_data(dir_images_train, dir_images_test):
         sub_labels = [letter_label] * len(sub_images)
         images = np.append(images, sub_images, axis=0)
         labels = np.append(labels, sub_labels, axis=0)
-    X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42, shuffle=True)
+    return images, labels
+
+
+def load_data(dir_images_train, dir_images_test):
+    X_train, y_train = load_samples(dir_images_train)
+    X_test, y_test = load_samples(dir_images_test)
     return (X_train, y_train), (X_test, y_test)
 
-dir_images_train='/media/jones/dataset/alpr/lotes_rotulacao/preprocessados/char_recognition_2/dataset_char/train/images'
-dir_images_test=''
+dir_images_train= '/media/jones/datarec/lpr/dataset/datasets_processados/DS_4/reconhecimento_caracteres/train'
+dir_images_test = '/media/jones/datarec/lpr/dataset/datasets_processados/DS_4/reconhecimento_caracteres/test'
 
 # Load the CIFAR10 data.
 # (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -414,7 +420,7 @@ else:
         # set range for random zoom
         zoom_range=[0.7, 1.3],
         # randomly darkening images, brightening images, or bot
-        # brightness_range=[0.7, 1.3],
+        # brightness_range=[0.2, 1.0],
         # set range for random channel shifts
         channel_shift_range=0.,
         # set mode for filling points outside the input boundaries
