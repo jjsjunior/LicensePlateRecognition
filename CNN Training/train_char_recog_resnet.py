@@ -364,7 +364,7 @@ print(model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'ceia_char_recog_5_%s_model.{epoch:03d}.h5' % model_type
+model_name = 'ceia_char_recog_6_brightness_%s_model.{epoch:03d}.h5' % model_type
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
 filepath = os.path.join(save_dir, model_name)
@@ -408,7 +408,7 @@ else:
         # apply ZCA whitening
         zca_whitening=False,
         # epsilon for ZCA whitening
-        zca_epsilon=1e-06,
+        # zca_epsilon=1e-06,
         # randomly rotate images in the range (deg 0 to 180)
         rotation_range=0,
         # randomly shift images horizontally
@@ -418,17 +418,17 @@ else:
         # set range for random shear
         shear_range=0.,
         # set range for random zoom
-        zoom_range=[0.7, 1.3],
+        # zoom_range=[0.7, 1.3],
         # randomly darkening images, brightening images, or bot
-        # brightness_range=[0.2, 1.0],
+        brightness_range=[0.2, 1.0],
         # set range for random channel shifts
-        channel_shift_range=0.,
+        # channel_shift_range=0.,
         # set mode for filling points outside the input boundaries
         fill_mode='nearest',
         # value used for fill_mode = "constant"
         cval=0.,
         # randomly flip images
-        horizontal_flip=True,
+        horizontal_flip=False,
         # randomly flip images
         vertical_flip=False,
         # set rescaling factor (applied before any other transformation)
@@ -446,7 +446,7 @@ else:
     model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch_size),
                         validation_data=(x_test, y_test),
                         epochs=epochs, verbose=1, workers=4,
-                        callbacks=callbacks, steps_per_epoch=350)
+                        callbacks=callbacks, steps_per_epoch=500)
 
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
