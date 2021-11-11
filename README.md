@@ -166,8 +166,9 @@ Modelo | Precision | Recall | True Positive | False Positive | False Negative
 Baseline Yolov2 | 0.90 | 0.41 | 3522 | 269 | 5172  
 Yolov2-ceia-v3 | 0.98 | 0.99 | 8597 | 149 | 97  
 Yolov2-ceia-v4 | 0.99 | 0.99 | 8596 | 130 | 98
-Yolov2-ceia-v6 | **0.99** | **0.99** | **8634** | **103** | **60**
+Yolov2-ceia-v6 | **0.99** | **0.99** | 8634 | 103 | 60
 Yolov2-ceia-v7 | 0.98 | **0.99** | 8624 | 147 | 70
+Yolov2-ceia-v8 | 0.99 | **0.99** | **8642** | **93** | **52**
 
 
 # Resultados Char Recognition
