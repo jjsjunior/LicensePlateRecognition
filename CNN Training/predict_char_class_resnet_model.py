@@ -73,24 +73,29 @@ def atualizar_contagem_erros(erros_dict, classe_erro):
 def main(args):
     dir_images_test = args.dir_images_test
     images, labels = load_data(dir_images_test)
-    model = keras.models.load_model("/media/jones/dataset/alpr/fontes/ocr/char_recog_cnn/LicensePlateRecognition/CNN Training/saved_models/ceia_char_recog_5_ResNet29v2_model.121.h5")
+    model = keras.models.load_model(args.model_path)
     batch_size = 64
     nrof_samples = len(images)
     qtd_steps = int(nrof_samples / batch_size)+1
     erros_dict  = {}
+    qtd_acertos = 0
     for i in tqdm(range(qtd_steps)):
         idx_start = i*batch_size
         idx_end = idx_start + batch_size
         idx_end = nrof_samples if nrof_samples < idx_end else idx_end
         x_batch = images[idx_start:idx_end]
         y_batch = labels[idx_start:idx_end]
+        x_batch = x_batch.astype('float32') / 255
         y_predicted_batch = model.predict(x_batch)
         y_predicted_classes = y_predicted_batch.argmax(axis=-1)
         for idx,predicted_class in enumerate(y_predicted_classes):
             if predicted_class!=y_batch[idx]:
                 y_predicted_label = get_label(int(predicted_class))
                 atualizar_contagem_erros(erros_dict, y_predicted_label)
+            else:
+                qtd_acertos +=1
     print(erros_dict)
+    print('acertos: %i' % qtd_acertos)
 
 
 
@@ -101,6 +106,7 @@ def main(args):
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--dir_images_test', type=str)
+    parser.add_argument('--model_path', type=str)
     return parser.parse_args(argv)
 
 
