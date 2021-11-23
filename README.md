@@ -224,7 +224,19 @@ Yolov2-ceia-v8 | 0.99 | **0.99** | **8642** | **93** | **52**
 * best epoch = 102
 * train DS-CHAR-RECOG-2_train
 * data augmentation = True
-* zoom_range=[0.7, 1.3]
+* zoom_range=[0.7, 1.3] 
+
+
+### ceia_char_recog_7_gaussian_ResNet29v2_model.088
+* data augmentation apenas com o gaussian blur. 
+* houve melhora significatgiva no desempenho
+* melhoras: treinar em conjungo com variacao de zoom, shift e brilho
+* model size: width=42 height=63
+* epoch = 200
+* best epoch = 88
+* train DS4-CHAR-RECOG-2_train
+* data augmentation = True
+* gaussian blur
 
 
 # Resultados Segmentação
