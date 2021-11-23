@@ -82,6 +82,12 @@ cfg/yolo-character.cfg
 * DS-CHAR-2_train: 4.731 plates
 * DS-CHAR-2_test: 1.242 plates / 8.694 chars  
 
+
+## DS-CHAR-3  
+* DS-CHAR-3_train: 7.283 plates  
+* DS-CHAR-3_test: 1.816 plates / ??? chars  
+
+
 ## DS-CHAR-RECOG-1
 * DS-CHAR-RECOG-1_train: 22958 chars
 * DS-CHAR-RECOG-1_test: 5740  chars
@@ -160,8 +166,9 @@ Modelo | Precision | Recall | True Positive | False Positive | False Negative
 Baseline Yolov2 | 0.90 | 0.41 | 3522 | 269 | 5172  
 Yolov2-ceia-v3 | 0.98 | 0.99 | 8597 | 149 | 97  
 Yolov2-ceia-v4 | 0.99 | 0.99 | 8596 | 130 | 98
-Yolov2-ceia-v6 | **0.99** | **0.99** | **8634** | **103** | **60**
+Yolov2-ceia-v6 | **0.99** | **0.99** | 8634 | 103 | 60
 Yolov2-ceia-v7 | 0.98 | **0.99** | 8624 | 147 | 70
+Yolov2-ceia-v8 | 0.99 | **0.99** | **8642** | **93** | **52**
 
 
 # Resultados Char Recognition

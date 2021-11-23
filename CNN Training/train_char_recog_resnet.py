@@ -15,7 +15,6 @@ import os
 import glob
 from PIL import Image
 from sklearn.model_selection import train_test_split
-import cv2
 
 # Training parameters
 batch_size = 32  # orig paper trained all networks with batch_size=128
@@ -51,12 +50,13 @@ channel = 3
 dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,'j':18,'k':19,'l':20,'m':21,
                       'n':22,'p':23,'q':24,'r':25,'s':26,'t':27,'u':28,'v':29,'w':30,'x':31,'y':32,'z':33,'?':34}
 
-def load_data(dir_images_train, dir_images_test):
+
+
+def load_samples(base_directory_dataset):
     images = np.array([]).reshape(0, height, width, channel)
     labels = np.array([])
-
     ################ Data in  ./AUG then in a folder with label name, example : ./AUG/A for A images #############
-    directories = [x[0] for x in os.walk(dir_images_train)][2:]
+    directories = [x[0] for x in os.walk(base_directory_dataset)][2:]
     print(directories)
     for directory in directories:
         filelist = glob.glob(directory + '/*.jpg')
@@ -74,11 +74,16 @@ def load_data(dir_images_train, dir_images_test):
         sub_labels = [letter_label] * len(sub_images)
         images = np.append(images, sub_images, axis=0)
         labels = np.append(labels, sub_labels, axis=0)
-    X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42, shuffle=True)
+    return images, labels
+
+
+def load_data(dir_images_train, dir_images_test):
+    X_train, y_train = load_samples(dir_images_train)
+    X_test, y_test = load_samples(dir_images_test)
     return (X_train, y_train), (X_test, y_test)
 
-dir_images_train='/media/jones/dataset/alpr/lotes_rotulacao/preprocessados/char_recognition_2/dataset_char/train/images'
-dir_images_test=''
+dir_images_train= '/media/jones/datarec/lpr/dataset/datasets_processados/DS_4/reconhecimento_caracteres/train'
+dir_images_test = '/media/jones/datarec/lpr/dataset/datasets_processados/DS_4/reconhecimento_caracteres/test'
 
 # Load the CIFAR10 data.
 # (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -359,7 +364,7 @@ print(model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'ceia_char_recog_6_blur_%s_model.{epoch:03d}.h5' % model_type
+model_name = 'ceia_char_recog_6_brightness_%s_model.{epoch:03d}.h5' % model_type
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
 filepath = os.path.join(save_dir, model_name)
@@ -378,12 +383,6 @@ lr_reducer = ReduceLROnPlateau(factor=np.sqrt(0.1),
                                min_lr=0.5e-6)
 
 callbacks = [checkpoint, lr_reducer, lr_scheduler]
-
-def apply_gaussian_noise(ndarray_image):
-    bluried_ndarray_image = cv2.GaussianBlur(ndarray_image, (5, 5), cv2.BORDER_DEFAULT)
-    return bluried_ndarray_image
-
-
 
 # Run training, with or without data augmentation.
 if not data_augmentation:
@@ -409,7 +408,7 @@ else:
         # apply ZCA whitening
         zca_whitening=False,
         # epsilon for ZCA whitening
-        zca_epsilon=1e-06,
+        # zca_epsilon=1e-06,
         # randomly rotate images in the range (deg 0 to 180)
         rotation_range=0,
         # randomly shift images horizontally
@@ -419,23 +418,23 @@ else:
         # set range for random shear
         shear_range=0.,
         # set range for random zoom
-        zoom_range=[0.7, 1.3],
+        # zoom_range=[0.7, 1.3],
         # randomly darkening images, brightening images, or bot
-        # brightness_range=[0.7, 1.3],
+        brightness_range=[0.2, 1.0],
         # set range for random channel shifts
-        channel_shift_range=0.,
+        # channel_shift_range=0.,
         # set mode for filling points outside the input boundaries
         fill_mode='nearest',
         # value used for fill_mode = "constant"
         cval=0.,
         # randomly flip images
-        horizontal_flip=True,
+        horizontal_flip=False,
         # randomly flip images
         vertical_flip=False,
         # set rescaling factor (applied before any other transformation)
         rescale=None,
         # set function that will be applied on each input
-        preprocessing_function=apply_gaussian_noise,
+        preprocessing_function=None,
         # image data format, either "channels_first" or "channels_last"
         data_format=None)
 
@@ -447,7 +446,7 @@ else:
     model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch_size),
                         validation_data=(x_test, y_test),
                         epochs=epochs, verbose=1, workers=4,
-                        callbacks=callbacks, steps_per_epoch=350)
+                        callbacks=callbacks, steps_per_epoch=500)
 
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
