@@ -14,7 +14,7 @@ import numpy as np
 import os
 import glob
 from PIL import Image
-from sklearn.model_selection import train_test_split
+import cv2
 
 # Training parameters
 batch_size = 32  # orig paper trained all networks with batch_size=128
@@ -134,6 +134,7 @@ def lr_schedule(epoch):
         lr *= 1e-1
     print('Learning rate: ', lr)
     return lr
+
 
 
 def resnet_layer(inputs,
@@ -384,6 +385,13 @@ lr_reducer = ReduceLROnPlateau(factor=np.sqrt(0.1),
 
 callbacks = [checkpoint, lr_reducer, lr_scheduler]
 
+
+def apply_gaussian_noise(ndarray_image):
+    bluried_ndarray_image = cv2.GaussianBlur(ndarray_image, (5, 5), cv2.BORDER_DEFAULT)
+    return bluried_ndarray_image
+
+
+
 # Run training, with or without data augmentation.
 if not data_augmentation:
     print('Not using data augmentation.')
@@ -420,7 +428,7 @@ else:
         # set range for random zoom
         # zoom_range=[0.7, 1.3],
         # randomly darkening images, brightening images, or bot
-        brightness_range=[0.2, 1.0],
+        # brightness_range=[0.2, 1.0],
         # set range for random channel shifts
         # channel_shift_range=0.,
         # set mode for filling points outside the input boundaries
@@ -434,7 +442,8 @@ else:
         # set rescaling factor (applied before any other transformation)
         rescale=None,
         # set function that will be applied on each input
-        preprocessing_function=None,
+        preprocessing_function=apply_gaussian_noise,
+
         # image data format, either "channels_first" or "channels_last"
         data_format=None)
 

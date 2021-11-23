@@ -63,16 +63,25 @@ def get_label(y_predicted):
             return key
 
 
-def atualizar_contagem_erros(erros_dict, classe_erro):
-    if classe_erro in erros_dict:
-        erros_dict[classe_erro] = erros_dict[classe_erro]+1
+def atualizar_contagem_erros(erros_dict, classe_prevista_erro, true_class):
+    if true_class in erros_dict:
+        if classe_prevista_erro not in erros_dict[true_class]:
+            erros_dict[true_class] = {classe_prevista_erro: 0}
+        erros_dict[true_class][classe_prevista_erro] = erros_dict[true_class][classe_prevista_erro]+1
     else:
-        erros_dict[classe_erro] = 1
+        erros_dict[true_class] = {classe_prevista_erro: 1}
+
+
+def subtract_pixel_mean(images):
+    x_images_mean = np.mean(images, axis=0)
+    images -= x_images_mean
+    return images
 
 
 def main(args):
     dir_images_test = args.dir_images_test
     images, labels = load_data(dir_images_test)
+    images = subtract_pixel_mean(images)
     model = keras.models.load_model(args.model_path)
     batch_size = 64
     nrof_samples = len(images)
@@ -89,11 +98,16 @@ def main(args):
         y_predicted_batch = model.predict(x_batch)
         y_predicted_classes = y_predicted_batch.argmax(axis=-1)
         for idx,predicted_class in enumerate(y_predicted_classes):
-            if predicted_class!=y_batch[idx]:
+            if int(predicted_class)!=int(y_batch[idx]):
                 y_predicted_label = get_label(int(predicted_class))
-                atualizar_contagem_erros(erros_dict, y_predicted_label)
+                y_true_label = get_label(int(y_batch[idx]))
+                atualizar_contagem_erros(erros_dict, y_predicted_label, y_true_label)
             else:
                 qtd_acertos +=1
+    for key in erros_dict.keys():
+        print('true label: %s ' % key)
+        for key_predited, value_predited in erros_dict[key].items():
+            print('predicted label: %s | qtd: %i' % (key_predited, value_predited))
     print(erros_dict)
     print('acertos: %i' % qtd_acertos)
 
