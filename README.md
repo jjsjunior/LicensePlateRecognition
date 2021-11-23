@@ -234,13 +234,14 @@ Yolov2-ceia-v8 | 0.99 | **0.99** | **8642** | **93** | **52**
 
 
 
-Modelo | loss | acc   
------------- | --------- | -------------   
-char_recog_ceia_1 | 2.67 | 0.8517  
+Modelo | loss   | acc   
+------------ |--------| -------------   
+char_recog_ceia_1 | 2.67   | 0.8517  
 char_recog_ceia_2 | 0.9905 | 0.9024 
-Ceia_ResNet20v1_model | 0.5065| 0.93399  
-char_recog_ceia_3 | 0.85 | 0.9123
-ceia_char_recog_2_ResNet20v1_model.086 | 0.4451| **0.94283**  
+Ceia_ResNet20v1_model | 0.5065 | 0.93399  
+char_recog_ceia_3 | 0.85   | 0.9123
+ceia_char_recog_2_ResNet20v1_model.086 | 0.4451 | **0.94283**  
 ceia_char_recog_3_ResNet29v2_model | 0.4534 | 0.9412  
 ceia_char_recog_4_ResNet29v2_model | 0.3613 | 0.9409  
 ceia_char_recog_5_ResNet29v2_model | 0.3486 | 0.9442
+ceia_char_recog_7_gaussian_ResNet29v2_model.088.h5 | 0.29   | 0.9541
