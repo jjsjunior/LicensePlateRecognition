@@ -15,6 +15,7 @@ import os
 import glob
 from PIL import Image
 from sklearn.model_selection import train_test_split
+import cv2
 
 # Training parameters
 batch_size = 32  # orig paper trained all networks with batch_size=128
@@ -358,7 +359,7 @@ print(model_type)
 
 # Prepare model model saving directory.
 save_dir = os.path.join(os.getcwd(), 'saved_models')
-model_name = 'ceia_char_recog_5_%s_model.{epoch:03d}.h5' % model_type
+model_name = 'ceia_char_recog_6_blur_%s_model.{epoch:03d}.h5' % model_type
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
 filepath = os.path.join(save_dir, model_name)
@@ -377,6 +378,12 @@ lr_reducer = ReduceLROnPlateau(factor=np.sqrt(0.1),
                                min_lr=0.5e-6)
 
 callbacks = [checkpoint, lr_reducer, lr_scheduler]
+
+def apply_gaussian_noise(ndarray_image):
+    bluried_ndarray_image = cv2.GaussianBlur(ndarray_image, (5, 5), cv2.BORDER_DEFAULT)
+    return bluried_ndarray_image
+
+
 
 # Run training, with or without data augmentation.
 if not data_augmentation:
@@ -428,7 +435,7 @@ else:
         # set rescaling factor (applied before any other transformation)
         rescale=None,
         # set function that will be applied on each input
-        preprocessing_function=None,
+        preprocessing_function=apply_gaussian_noise,
         # image data format, either "channels_first" or "channels_last"
         data_format=None)
 
