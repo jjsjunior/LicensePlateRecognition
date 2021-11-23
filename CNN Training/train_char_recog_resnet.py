@@ -98,7 +98,7 @@ def main(args):
 
     # Prepare model model saving directory.
     save_dir = os.path.join(os.getcwd(), 'saved_models')
-    model_name = 'ceia_char_recog_7_gaussian_%s_model.{epoch:03d}.h5' % model_type
+    model_name = 'ceia_char_recog_8_gaussian_brightness_%s_model.{epoch:03d}.h5' % model_type
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
     filepath = os.path.join(save_dir, model_name)
@@ -155,7 +155,7 @@ def main(args):
             # set range for random zoom
             # zoom_range=[0.7, 1.3],
             # randomly darkening images, brightening images, or bot
-            # brightness_range=[0.2, 1.0],
+            brightness_range=[0.9, 1.0],
             # set range for random channel shifts
             # channel_shift_range=0.,
             # set mode for filling points outside the input boundaries
