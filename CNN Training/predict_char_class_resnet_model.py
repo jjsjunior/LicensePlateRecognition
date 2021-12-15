@@ -43,7 +43,7 @@ def load_data(dir_images_test):
     images = np.array([]).reshape(0, height, width, channel)
     labels = np.array([])
     ################ Data in  ./AUG then in a folder with label name, example : ./AUG/A for A images #############
-    directories = [x[0] for x in os.walk(dir_images_test)][2:]
+    directories = [x[0] for x in os.walk(dir_images_test)][1:]
     print(directories)
     for directory in directories:
         filelist = glob.glob(directory + '/*.jpg')
