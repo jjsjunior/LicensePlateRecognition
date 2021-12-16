@@ -20,7 +20,7 @@ import sys
 import argparse
 
 # Training parameters
-batch_size = 32  # orig paper trained all networks with batch_size=128
+batch_size = 64  # orig paper trained all networks with batch_size=128
 epochs = 200
 data_augmentation = True
 num_classes = 34
@@ -98,7 +98,7 @@ def main(args):
 
     # Prepare model model saving directory.
     save_dir = os.path.join(os.getcwd(), 'saved_models')
-    model_name = 'ceia_char_recog_11_gaussian_%s_model.{epoch:03d}.h5' % model_type
+    model_name = 'ceia_char_recog_14_whshift_%s_model.{epoch:03d}.h5' % model_type
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
     filepath = os.path.join(save_dir, model_name)
@@ -147,9 +147,9 @@ def main(args):
             # randomly rotate images in the range (deg 0 to 180)
             rotation_range=0,
             # randomly shift images horizontally
-            width_shift_range=0.,
+            width_shift_range=0.3,
             # randomly shift images vertically
-            height_shift_range=0.,
+            height_shift_range=0.3,
             # set range for random shear
             shear_range=0.,
             # set range for random zoom
@@ -169,7 +169,7 @@ def main(args):
             # set rescaling factor (applied before any other transformation)
             rescale=None,
             # set function that will be applied on each input
-            preprocessing_function=apply_gaussian_noise,
+            # preprocessing_function=apply_gaussian_noise,
 
             # image data format, either "channels_first" or "channels_last"
             data_format=None)
