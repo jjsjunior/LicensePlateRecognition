@@ -20,13 +20,13 @@ import sys
 import argparse
 
 # Training parameters
-batch_size = 64  # orig paper trained all networks with batch_size=128
+batch_size = 128  # orig paper trained all networks with batch_size=128
 epochs = 200
 data_augmentation = True
 num_classes = 34
 
 # Subtracting pixel mean improves accuracy
-subtract_pixel_mean = True
+subtract_pixel_mean = False
 
 n = 3
 
@@ -72,10 +72,10 @@ def main(args):
     x_test = x_test.astype('float32') / 255
 
     # If subtract pixel mean is enabled
-    if subtract_pixel_mean:
-        x_train_mean = np.mean(x_train, axis=0)
-        x_train -= x_train_mean
-        x_test -= x_train_mean
+    # if subtract_pixel_mean:
+    #     x_train_mean = np.mean(x_train, axis=0)
+    #     x_train -= x_train_mean
+    #     x_test -= x_train_mean
 
     print('x_train shape:', x_train.shape)
     print(x_train.shape[0], 'train samples')
@@ -98,7 +98,7 @@ def main(args):
 
     # Prepare model model saving directory.
     save_dir = os.path.join(os.getcwd(), 'saved_models')
-    model_name = 'ceia_char_recog_14_whshift_%s_model.{epoch:03d}.h5' % model_type
+    model_name = 'ceia_char_recog_15_whshift_%s_model.{epoch:03d}.h5' % model_type
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
     filepath = os.path.join(save_dir, model_name)
