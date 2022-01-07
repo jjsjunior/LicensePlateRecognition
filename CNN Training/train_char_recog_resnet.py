@@ -20,6 +20,7 @@ import sys
 import argparse
 
 # Training parameters
+SUBTRACT_MEAN_PIXEL_TRUE = 1
 batch_size = 128  # orig paper trained all networks with batch_size=128
 epochs = 200
 data_augmentation = True
@@ -61,6 +62,8 @@ def apply_gaussian_noise(ndarray_image):
 
 
 def main(args):
+    global subtract_pixel_mean
+    subtract_pixel_mean = args.subtract_mean_pixel == SUBTRACT_MEAN_PIXEL_TRUE
     dir_images_test = args.dir_images_test
     dir_images_train = args.dir_images_train
     (x_train, y_train), (x_test, y_test) = load_data(dir_images_train, dir_images_test)
@@ -72,10 +75,16 @@ def main(args):
     x_test = x_test.astype('float32') / 255
 
     # If subtract pixel mean is enabled
-    # if subtract_pixel_mean:
-    #     x_train_mean = np.mean(x_train, axis=0)
-    #     x_train -= x_train_mean
-    #     x_test -= x_train_mean
+    if not os.path.exists('train_ds_pixel_mean.npy'):
+        x_train_mean = np.mean(x_train, axis=0)
+        print('valor max: {} | valor min: {} | media: {}'.format(x_train_mean.max(), x_train_mean.min(),
+                                                                 x_train_mean.mean()))
+        np.save('train_ds_pixel_mean.npy', x_train_mean)
+
+    if subtract_pixel_mean:
+        x_train_mean = np.load('train_ds_pixel_mean.npy')
+        x_train -= x_train_mean
+        x_test -= x_train_mean
 
     print('x_train shape:', x_train.shape)
     print(x_train.shape[0], 'train samples')
@@ -98,7 +107,7 @@ def main(args):
 
     # Prepare model model saving directory.
     save_dir = os.path.join(os.getcwd(), 'saved_models')
-    model_name = 'ceia_char_recog_15_whshift_%s_model.{epoch:03d}.h5' % model_type
+    model_name = 'ceia_char_recog_16_whshift_sub_mean_%s_model.{epoch:03d}.h5' % model_type
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
     filepath = os.path.join(save_dir, model_name)
@@ -471,6 +480,7 @@ def parse_arguments(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument('--dir_images_train', type=str)
     parser.add_argument('--dir_images_test', type=str)
+    parser.add_argument('--subtract_mean_pixel', type=int, default=0)
     return parser.parse_args(argv)
 
 
