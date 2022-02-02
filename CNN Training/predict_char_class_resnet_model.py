@@ -1,17 +1,11 @@
 from __future__ import print_function
+
+import datetime
+
 from tqdm import tqdm
-import keras
+# import keras
+from tensorflow import keras
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-from keras.layers import Dense, Conv2D, BatchNormalization, Activation
-from keras.layers import AveragePooling2D, Input, Flatten
-from keras.optimizers import Adam
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler
-from keras.callbacks import ReduceLROnPlateau
-from keras.preprocessing.image import ImageDataGenerator
-from keras.regularizers import l2
-from keras import backend as K
-from keras.models import Model
-from keras.datasets import cifar10
 import numpy as np
 import os
 import glob
@@ -20,6 +14,7 @@ from sklearn.model_selection import train_test_split
 import sys
 import argparse
 import matplotlib.pyplot as plt
+import statistics
 
 width = 42
 height = 63
@@ -96,7 +91,7 @@ def subtract_pixel_mean(images):
 def main(args):
     dir_images_test = args.dir_images_test
     images, labels = load_data(dir_images_test)
-    images = subtract_pixel_mean(images)
+    # images = subtract_pixel_mean(images)
     model = keras.models.load_model(args.model_path)
     batch_size = 64
     nrof_samples = len(images)
@@ -106,6 +101,7 @@ def main(args):
     qtd_acertos = 0
     y_true_label_array = np.zeros((nrof_samples,))
     y_predited_label_array = np.zeros((nrof_samples,))
+    tempo_batch_list = []
     for i in tqdm(range(qtd_steps)):
         idx_start = i*batch_size
         idx_end = idx_start + batch_size
@@ -113,7 +109,10 @@ def main(args):
         x_batch = images[idx_start:idx_end]
         y_batch = labels[idx_start:idx_end]
         x_batch = x_batch.astype('float32') / 255
+        tempo_inicio = datetime.datetime.now()
         y_predicted_batch = model.predict(x_batch)
+        tempo_inferencia = (datetime.datetime.now() -tempo_inicio).total_seconds()
+        tempo_batch_list.append(tempo_inferencia)
         y_predicted_classes = y_predicted_batch.argmax(axis=-1)
         y_predited_label_array[idx_start:idx_end] = y_predicted_classes
         y_true_label_array[idx_start:idx_end] = y_batch
@@ -141,6 +140,8 @@ def main(args):
     print('True labels errors')
     print_errors(erros_true_label_dict)
     print('False labels errors')
+    print('estatistica de tempo. total: {} | media: {} | maximo: {} | minimo: {}'.format(
+        sum(tempo_batch_list), statistics.mean(tempo_batch_list), max(tempo_batch_list), min(tempo_batch_list)))
     print_errors(erros_mismatch_label_dict)
     disp_conf_matrix.plot()
     plt.show()

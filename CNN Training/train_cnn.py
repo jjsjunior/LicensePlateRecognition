@@ -29,30 +29,61 @@ dict_letters_targets = {'a':10,'b':11,'c':12,'d':13,'e':14,'f':15,'g':16,'h':17,
                       'n':22,'p':23,'q':24,'r':25,'s':26,'t':27,'u':28,'v':29,'w':30,'x':31,'y':32,'z':33,'?':34}
 
 
+def load_samples(base_directory_dataset):
+    images = np.array([]).reshape(0, height, width, channel)
+    labels = np.array([])
+    ################ Data in  ./AUG then in a folder with label name, example : ./AUG/A for A images #############
+    directories = [x[0] for x in os.walk(base_directory_dataset) if len(x[0])>len(base_directory_dataset)]
+    print(directories)
+    for directory in directories:
+        filelist = glob.glob(directory + '/*.jpg')
+        sub_images = np.array(
+            [np.array(Image.open(fname).resize((width, height), Image.NEAREST)) for fname in filelist])
+        # sub_labels = [int(directory[-2:])]*len(sub_images)
+        letter_label_str = directory[-1:].lower()
+        if letter_label_str == '?':
+            continue
+        if letter_label_str.isdigit():
+            letter_label = int(letter_label_str)
+        else:
+            # letter_label = ord(letter_label_str)-96+9
+            letter_label = dict_letters_targets[letter_label_str]
+        sub_labels = [letter_label] * len(sub_images)
+        images = np.append(images, sub_images, axis=0)
+        labels = np.append(labels, sub_labels, axis=0)
+    return images, labels
+
+
+
 def load_data(dir_images_train, dir_images_test):
-        images = np.array([]).reshape(0,height,width, channel)
-        labels = np.array([])
-        
-        ################ Data in  ./AUG then in a folder with label name, example : ./AUG/A for A images #############
-        directories = [x[0] for x in os.walk(dir_images_train)][2:]
-        print(directories)
-        for directory in directories:
-                filelist = glob.glob(directory+'/*.jpg')
-                sub_images = np.array([np.array(Image.open(fname).resize((width, height), Image.NEAREST)) for fname in filelist])
-                # sub_labels = [int(directory[-2:])]*len(sub_images)
-                letter_label_str = directory[-1:].lower()
-                if letter_label_str=='?':
-                    continue
-                if letter_label_str.isdigit():
-                    letter_label = int(letter_label_str)
-                else:
-                    # letter_label = ord(letter_label_str)-96+9
-                    letter_label = dict_letters_targets[letter_label_str]
-                sub_labels = [letter_label] * len(sub_images)
-                images = np.append(images,sub_images, axis = 0)
-                labels = np.append(labels,sub_labels, axis = 0)
-        X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42, shuffle=True)
-        return (X_train, y_train), (X_test, y_test)
+    X_train, y_train = load_samples(dir_images_train)
+    X_test, y_test = load_samples(dir_images_test)
+    return (X_train, y_train), (X_test, y_test)
+
+# def load_data(dir_images_train, dir_images_test):
+#         images = np.array([]).reshape(0,height,width, channel)
+#         labels = np.array([])
+#
+#         ################ Data in  ./AUG then in a folder with label name, example : ./AUG/A for A images #############
+#         directories = [x[0] for x in os.walk(dir_images_train)][2:]
+#         print(directories)
+#         for directory in directories:
+#                 filelist = glob.glob(directory+'/*.jpg')
+#                 sub_images = np.array([np.array(Image.open(fname).resize((width, height), Image.NEAREST)) for fname in filelist])
+#                 # sub_labels = [int(directory[-2:])]*len(sub_images)
+#                 letter_label_str = directory[-1:].lower()
+#                 if letter_label_str=='?':
+#                     continue
+#                 if letter_label_str.isdigit():
+#                     letter_label = int(letter_label_str)
+#                 else:
+#                     # letter_label = ord(letter_label_str)-96+9
+#                     letter_label = dict_letters_targets[letter_label_str]
+#                 sub_labels = [letter_label] * len(sub_images)
+#                 images = np.append(images,sub_images, axis = 0)
+#                 labels = np.append(labels,sub_labels, axis = 0)
+#         X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42, shuffle=True)
+#         return (X_train, y_train), (X_test, y_test)
 
 # (train_images, train_labels), (test_images, test_labels) = load_data()
 def train_model(train_images, train_labels, test_images, test_labels):
