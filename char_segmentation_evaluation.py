@@ -7,6 +7,7 @@ from glob import glob
 from os.path import splitext, basename
 import cv2
 import prediction_utils as prediction_utils
+from datetime import datetime
 
 class MetricIndicator:
 
@@ -115,13 +116,17 @@ def validate_char_segmentation_model(dir_images_validation_input: str, dir_gt_va
 	seg_threshold = .5
 	imgs_paths = glob('%s/*.jpg' % dir_images_validation_input, recursive=True)
 	indicadores_validacao = MetricIndicator()
+	tempo_inferencia_list =[]
+	tempo_inicial_total = datetime.now()
 	for i, img_path in enumerate(imgs_paths):
 		try:
 			# print('\t Processing %s' % img_path)
 			bname_image_file = splitext(basename(img_path))[0]
 			name_file_gt = bname_image_file + '.xml'
 			plate = cv2.imread(img_path)
+			tempo_parcial_inicial = datetime.now()
 			predictions = yolo_char_seg_model.return_predict(plate)
+			tempo_inferencia_list.append((datetime.now() - tempo_parcial_inicial).total_seconds())
 			ground_truth_frame = []
 			gt_img_path = os.path.abspath(os.path.join(dir_gt_validation_input, name_file_gt))
 			tree = ET.parse(gt_img_path)
@@ -162,5 +167,9 @@ def validate_char_segmentation_model(dir_images_validation_input: str, dir_gt_va
 		except Exception as error:
 			print('error validating image %s'  % img_path)
 			print(error)
+	tempo_total_final = datetime.now()
+	print('tempo total: {}s | media: {}s | min: {}s | max: {}s '.format(
+		(tempo_total_final-tempo_inicial_total).total_seconds(), statistics.mean(tempo_inferencia_list),
+		min(tempo_inferencia_list), max(tempo_inferencia_list)))
 	indicadores_validacao.imprmir_ftn_all()
 	indicadores_validacao.imprimir_precision_recall_all()
